@@ -24,7 +24,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: CueMol/cuemol2
-        path: cuemol2
+        # path: cuemol2
 
     - uses: actions/cache@v4
       id: mozbuild-cache
@@ -84,3 +84,10 @@ jobs:
         cd $GITHUB_WORKSPACE
         ls -la
 
+    - name: Download/install deplibs
+      shell: bash
+      run: |
+        set -eux
+        TEMP_DIR=$(echo '${{ runner.temp }}' | sed 's/\\/\//g')
+        cd $GITHUB_WORKSPACE
+        bash build_scripts/download_deplibs/run_windows.sh $TEMP_DIR
