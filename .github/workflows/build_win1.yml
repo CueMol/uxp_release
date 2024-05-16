@@ -19,6 +19,7 @@ jobs:
     # runs-on: windows-2019
     steps:
     - uses: actions/checkout@v4
+        path: uxp_release
 
     - name: Checkout cuemol2 repository
       uses: actions/checkout@v4
@@ -26,7 +27,8 @@ jobs:
         repository: CueMol/cuemol2
         # path: cuemol2
 
-    - uses: actions/cache@v4
+    - name: mozbuild cache
+      uses: actions/cache@v4
       id: mozbuild-cache
       with:
         path: C:\mozilla-build\
@@ -34,7 +36,8 @@ jobs:
         restore-keys: |
           mozbuild-
 
-    - uses: actions/cache@v4
+    - name: uxp cache
+      uses: actions/cache@v4
       id: uxp-cache
       with:
         path: ${{ github.workspace }}\uxp_gui\platform
@@ -42,7 +45,8 @@ jobs:
         restore-keys: |
           uxp-
 
-    - uses: actions/cache@v4
+    - name: libcuemol cache
+      uses: actions/cache@v4
       id: libcuemol-cache
       with:
         path: ${{ runner.temp }}\proj64_deplibs\cuemol2
@@ -103,7 +107,7 @@ jobs:
         cmd /c %GITHUB_WORKSPACE%\build_scripts\build_libcuemol2_win.bat ${{ runner.temp }}
 
     - name: Download/install uxp src
-      if: steps.libcuemol-cache.outputs.cache-hit != 'true'
+      if: steps.uxp-cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
         set -eux
@@ -155,4 +159,4 @@ jobs:
       run: |
         echo on
         echo ${{ steps.get-repos-dir.outputs.repos-dir }}
-        cmd /c C:\mozilla-build\start-shell.bat ${{ steps.get-repos-dir.outputs.repos-dir }}/build_uxp_win.sh
+        cmd /c C:\mozilla-build\start-shell.bat ${{ steps.get-repos-dir.outputs.repos-dir }}/uxp_release/build_uxp_win.sh
