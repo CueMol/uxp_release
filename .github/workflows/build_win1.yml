@@ -169,7 +169,7 @@ jobs:
       id: create-artifact
       shell: bash
       env:
-        ARTIFACT_NAME: uxpbin_${{ runner.os }}_${{ runner.arch }}.tar.gz
+        ARTIFACT_NAME: uxpbin_${{ runner.os }}_${{ runner.arch }}.tar.zst
       run: |
         set -eux
         cd $GITHUB_WORKSPACE/uxp_gui
@@ -178,7 +178,7 @@ jobs:
         # Clean-up
         rm -rf $OBJDIR/dist $OBJDIR/cuemol2
 
-        tar czf ${ARTIFACT_NAME} platform $OBJDIR
+        tar --use-compress-program "zstd" -cf ${ARTIFACT_NAME} platform $OBJDIR
         ls -lh ${ARTIFACT_NAME}
         pwd
         echo "artifact-path=${GITHUB_WORKSPACE}\\uxp_gui\\${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
