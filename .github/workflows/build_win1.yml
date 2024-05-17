@@ -178,7 +178,7 @@ jobs:
         # Clean-up
         rm -rf $OBJDIR/dist $OBJDIR/cuemol2
 
-        tar czf ${GITHUB_WORKSPACE}/${ARTIFACT_NAME} platform $OBJDIR
+        tar czf ${ARTIFACT_NAME} platform $OBJDIR
         ls -lh ${GITHUB_WORKSPACE}/${ARTIFACT_NAME}
         echo "artifact-path=${GITHUB_WORKSPACE}/${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
 
