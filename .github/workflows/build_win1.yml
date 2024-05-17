@@ -181,7 +181,7 @@ jobs:
         tar czf ${ARTIFACT_NAME} platform $OBJDIR
         ls -lh ${ARTIFACT_NAME}
         pwd
-        echo "artifact-path=${GITHUB_WORKSPACE}\\${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
+        echo "artifact-path=${GITHUB_WORKSPACE}\\uxp_gui\\${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
