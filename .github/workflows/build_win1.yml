@@ -164,3 +164,26 @@ jobs:
         echo on
         echo ${{ steps.get-repos-dir.outputs.repos-dir }}
         cmd /c C:\mozilla-build\start-shell.bat ${{ steps.get-repos-dir.outputs.repos-dir }}/uxp_release/build_uxp_win.sh
+
+    - name: Create artifact
+      id: create-artifact
+      shell: bash
+      env:
+        ARTIFACT_NAME: uxpbin_${{ runner.os }}_${{ runner.arch }}.tar.gz
+      run: |
+        set -eux
+        cd $GITHUB_WORKSPACE/uxp_gui
+        OBJDIR=obj-x86_64-pc-mingw32
+
+        # Clean-up
+        rm -rf $OBJDIR/dist $OBJDIR/cuemol2
+
+        tar czf ${GITHUB_WORKSPACE}/${ARTIFACT_NAME} platform $OBJDIR
+        ls -lh ${GITHUB_WORKSPACE}/${ARTIFACT_NAME}
+        echo "artifact-path=${GITHUB_WORKSPACE}/${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: uxpbin_windows_x64
+        path: ${{ steps.build-artifact.outputs.artifact-path }}
