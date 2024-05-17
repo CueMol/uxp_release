@@ -179,7 +179,8 @@ jobs:
         rm -rf $OBJDIR/dist $OBJDIR/cuemol2
 
         tar czf ${ARTIFACT_NAME} platform $OBJDIR
-        ls -lh ${GITHUB_WORKSPACE}/${ARTIFACT_NAME}
+        ls -lh ${ARTIFACT_NAME}
+        pwd
         echo "artifact-path=${GITHUB_WORKSPACE}/${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
 
     - name: Upload artifact
